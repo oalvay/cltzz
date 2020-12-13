@@ -1,6 +1,6 @@
 # TTDS CW3
 
-⚠️always `git pull` before you start to work⚠️  
+⚠️always `git pull` before you start to work, and `git push` after your work⚠️  
 
 A guide to use git if you are not familar with it: [git novice](http://swcarpentry.github.io/git-novice/)
 
