@@ -18,3 +18,14 @@ name|function
 `webapp`| build a web application using the data and search engine
 `report`| write report
 
+---
+
+### Team members
+
+Name | github id | email
+---|---|---
+Siyue Chen | CindySakura | s2070782@ed.ac.uk
+Yang Lin | oalvay | s2041499@ed.ac.uk
+Zhendong Tian | 7818207 | s1702583@ed.ac.uk
+Zhuocheng Zhen | WhatsTheYouth | s2085935@ed.ac.uk
+Yongchang Zhu | relic-dyebt | s2133997@ed.ac.uk
