@@ -1,6 +1,8 @@
 # TTDS CW3
 
 ⚠️always `git pull` before you start to work⚠️
+A guide to use git if you are not familar with it: [git novice](http://swcarpentry.github.io/git-novice/)
+
 
 topic: song search based on lyrics
 
