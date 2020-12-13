@@ -1,14 +1,15 @@
 # TTDS CW3
 
-⚠️always `git pull` before you start to work⚠️
+⚠️always `git pull` before you start to work⚠️  
+
 A guide to use git if you are not familar with it: [git novice](http://swcarpentry.github.io/git-novice/)
 
 
-topic: song search based on lyrics
+**topic**: song search based on lyrics
 
-Current status: building web crawler
+**Current status**: building web crawler
 
-The repository is splited into four parts (can be extented if needed):
+The repository is currenctly splited into four parts (can be extented if needed):
 
 name|function
 ---|---
