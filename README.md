@@ -7,7 +7,9 @@ A guide to use git if you are not familar with it: [git novice](http://swcarpent
 
 **topic**: song search based on lyrics
 
-**Current status**: building web crawler
+## Details
+
+### Contents
 
 The repository is currenctly splited into four parts (can be extented if needed):
 
@@ -18,9 +20,38 @@ name|function
 `webapp`| build a web application using the data and search engine
 `report`| write report
 
+### Current Planning 
+
+#### Week 1 (12.14-12.20)
+
++ build a demo web crawler (requests 1000 time)
++ write HTML templates for front-page and search results. (no CSS)
+
+#### Week 2 (12.21-12.27)
+
++ build a full web crawler and collect data
++ write HTML template for detail page
++ typesetting three templates
+
+#### Week 3 (12.28-1.3)
+
++ preprocess and bulid inverted index (or b tree?)
++ typesetting three templates 
++ rendering three templates (overall theme)
+
+#### Week 4 (1.4-1.10)
+
++ ???
++ rendering three templates
+
+#### Week 5 (1.11-1.16)
+
++ ???
++ rendering three templates
+
 ---
 
-### Team members
+## Team members
 
 Name | github id | email
 ---|---|---
