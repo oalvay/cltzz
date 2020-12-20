@@ -78,31 +78,7 @@
 				search(){
 					var _self = this;
 					window.location.href = 'result.html';
-					// $.ajax({
-					// 	url: "http://host:30000/search",
-					// 	type: 'get',
-					// 	dataType: 'json',
-					// 	contentType:"application/json",
-					// 	data: { info: JSON.stringify(_self.info) },
-					// 	success: res => {
-					// 		if(res.err == false){
-					// 			sessionStorage.setItem('result',res.data.result);
-					// 			_self.$message({
-					// 				message: 'search success',
-					// 				type: 'success',
-					// 				center: true
-					// 			});
-					// 			setTimeout(() => { window.location.href = 'result.html'; }, 1000);
-					// 		} else {
-					// 			_self.$message({
-					// 				message: '用户名或密码错误',
-					// 				type: 'error',
-					// 				center: true
-					// 			});
-					// 		}
-					// 	},
-					// 	error: err =>  console.log(err)
-					// });
+					
 				},
 				
 			}
