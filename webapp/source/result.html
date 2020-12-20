@@ -33,13 +33,14 @@
 		</div>
 		<div style="height: 500px;"></div>
 		<div class="result_body" id="result">
-			<div class="result_card">
-				<h2 class="result_title">{{title}}</h2>
-				<div class="result_snippet">{{abstract}}</div>
-			</div>
+			
 			<div class="result_card">
 				<h2 class="result_title">测试标题2 Foreign Exchanges: Dollar rises on US indicators</h2>
 				<div class="result_snippet">测试正文内容THE DOLLAR staged a recovery in late European trading on the foreign exchange markets yesterday following signs of strong US manufacturing growth last month, writes James Blitz. Potential dollar buyers grew confident after the National Association of Purchasing Management\'s index rose at its fastest pace in almost four years</div>
+			</div>
+			<div class="result_card">
+				<h2 class="result_title">{{title}}</h2>
+				<div class="result_snippet">{{abstract}}</div>
 			</div>
 		</div>
 	</body>
@@ -71,31 +72,34 @@
 				},
 				search(){
 					var _self = this;
-					$.ajax({
-						url: "http://host:30000/search",
-						type: 'get',
-						dataType: 'json',
-						contentType:"application/json",
-						data: { info: JSON.stringify(_self.info) },
-						success: res => {
-							if(res.err == false){
-								sessionStorage.setItem('result',res.data.result);
-								_self.$message({
-									message: 'search success',
-									type: 'success',
-									center: true
-								});
-								setTimeout(() => { window.location.href = 'main.html'; }, 1000);
-							} else {
-								_self.$message({
-									message: '用户名或密码错误',
-									type: 'error',
-									center: true
-								});
-							}
-						},
-						error: err =>  console.log(err)
-					});
+					localStorage.setItem('title','World Commodities Prices: Market Report');
+					localStorage.setItem('abstract','London\'s robusta COFFEE market saw early gains erased in the afternoon,leaving the September contract unchanged from Friday\'s close. Dealers said there was little follow-through buying interest after Friday\'s advance in New York. The market could now settle down to trade in a narrow band ahead of the first set of negotiations for a new coffee pact on June 22-26. Dealers discounted some unconfirmed talk of cold weather in Brazil. LME trading');
+					window.location.href = 'result.html';
+					// $.ajax({
+					// 	url: "http://host:30000/search",
+					// 	type: 'get',
+					// 	dataType: 'json',
+					// 	contentType:"application/json",
+					// 	data: { info: JSON.stringify(_self.info) },
+					// 	success: res => {
+					// 		if(res.err == false){
+					// 			sessionStorage.setItem('result',res.data.result);
+					// 			_self.$message({
+					// 				message: 'search success',
+					// 				type: 'success',
+					// 				center: true
+					// 			});
+					// 			setTimeout(() => { window.location.href = 'result.html'; }, 1000);
+					// 		} else {
+					// 			_self.$message({
+					// 				message: '用户名或密码错误',
+					// 				type: 'error',
+					// 				center: true
+					// 			});
+					// 		}
+					// 	},
+					// 	error: err =>  console.log(err)
+					// });
 				},
 				
 			}
