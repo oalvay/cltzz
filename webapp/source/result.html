@@ -33,26 +33,31 @@
 		</div>
 		<div style="height: 500px;"></div>
 		<div class="result_body" id="result">
+			<div v-for="(result, n) in results">
+				<div class="result_card">
+				<h2 class="result_title">{{result.title}}</h2>
+				<div class="result_snippet">{{result.abstract}}</div>
+			</div>
+			</div>
 			
-			<div class="result_card">
-				<h2 class="result_title">测试标题2 Foreign Exchanges: Dollar rises on US indicators</h2>
-				<div class="result_snippet">测试正文内容THE DOLLAR staged a recovery in late European trading on the foreign exchange markets yesterday following signs of strong US manufacturing growth last month, writes James Blitz. Potential dollar buyers grew confident after the National Association of Purchasing Management\'s index rose at its fastest pace in almost four years</div>
-			</div>
-			<div class="result_card">
-				<h2 class="result_title">{{title}}</h2>
-				<div class="result_snippet">{{abstract}}</div>
-			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
-		var data ={}
-		data['title']=localStorage.getItem('title');
-		data['abstract']=localStorage.getItem('abstract');;
-
 		new Vue({
 			el: '#result',
-			data: data
-		})
+			data: {
+				results:[]
+			},
+			mounted() {
+    		if (localStorage.getItem('results')) {
+	      		try {
+	        		this.results = JSON.parse(localStorage.getItem('results'));
+	      		} catch(e) {
+	        		localStorage.removeItem('results');
+	      		}
+      		}
+      	}
+		});
 	</script>
 	<script>
 		new Vue({
