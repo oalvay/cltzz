@@ -16,20 +16,7 @@
 			window.onload
 		</script>
 		<style type="text/css">
-			.header_search{
-				margin-top: 40px;
-			}
-			.header_searchbar{
-				text-align: left;
-				margin-left: 30px;
-				margin-top: 30px;
-			}
-			#logo{
-				margin-bottom: 10px;
-				margin-right: 10px;
-				width: 80px; 
-				height: 80px;
-			}
+			
 		</style>
 	</head>
 	<body>
@@ -40,7 +27,7 @@
 				
 				<div class="header_searchbar" id="searchbar">
 					
-	 					<el-form inline=True label-width="10%" :model="info" style="margin-top: 1%;width: 90%">
+	 					<el-form :inline="true" label-width="10%" :model="info" style="margin-top: 1%;width: 90%">
 	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image>
 	 						<el-form-item >
 								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
@@ -62,16 +49,20 @@
  			</el-header>
  			<el-main>
 
- 				<div style="height: 100px;"></div>
+ 				<div style="height: 60px;">
+ 					
+ 				</div>
 				<div class="result_body" id="result">
-				<div v-for="(result, n) in results">
-				<div class="result_card">
-				<h2 class="result_title">{{result.title}}</h2>
-				<div class="result_snippet">{{result.abstract}}</div>
-			</div>
-			</div>
-			
-		</div>
+					<div v-for="(result, n) in results">
+						<div class="result_card">
+							<h2 class="result_title">{{result.title}}</h2>
+							<div class="result_snippet">{{result.abstract}}</div>
+						</div>
+					</div>
+					<el-pagination background layout="prev, pager, next" :total="1000">
+					</el-pagination>
+				</div>
+				
  			</el-main>
  			<el-footer>
  				<div style="text-align: center;">
