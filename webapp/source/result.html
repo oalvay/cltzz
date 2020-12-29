@@ -12,38 +12,29 @@
 		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 		<!-- import JQuery -->
 		<script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
-		<script type="text/javascript">
-			window.onload
-		</script>
+		<style type="text/css">
+			
+		</style>
 	</head>
 	<body>
-		<!-- <div class="searchbar" id="searchbar">
-			<el-card class="box-card">
-				<div>放logo</div>
-
-					<el-form label-width="20%" :model="info" style="margin-top: 20%;width: 80%">
-						<el-form-item label="输入">
-							<el-input placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 80%">
-						</el-form-item>
-						<el-button type="primary" @click="search">搜索</el-button>
-						<el-button type="primary" @click="search">高级搜索</el-button>
-					</el-form>
-			</el-card>
-		</div>
- -->
+		
  		<el-container>
  			<el-header style="top: 2px;">
- 				<i class="el-icon-search"></i>logo
-				<div class="searchbar" id="searchbar">
-	 					<el-form inline=true label-width="10%" :model="info" style="margin-top: 1%;width: 90%">
+
+				
+				<div class="header_searchbar" id="searchbar">
+					
+	 					<el-form :inline="true" label-width="10%" :model="info" style="margin-top: 1%;width: 90%">
+	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image>
 	 						<el-form-item >
-								<el-input placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px">
+								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
+								<el-autocomplete style="width: 400px;" class="inline-input header_search" v-model="state2" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect">	
+								</el-autocomplete>
+								
 								<i slot="prefix" class="el-input__icon el-icon-search"></i>
 							</el-form-item>
 	 						<el-form-item >
-
-
-									<el-button type="primary" @click="search">Search</el-button>
+									<el-button class="header_search" type="primary" @click="search">Search</el-button>
 									<el-button type="primary" @click="search">Advanced</el-button>
 							</el-form-item>
 
@@ -55,63 +46,30 @@
  			</el-header>
  			<el-main>
 
- 				<div style="height: 100px;"></div>
+ 				<div style="height: 60px;">
+ 					
+ 				</div>
 				<div class="result_body" id="result">
-				<div v-for="(result, n) in results">
-				<div class="result_card">
-				<h2 class="result_title">{{result.title}}</h2>
-				<div class="result_snippet">{{result.abstract}}</div>
-			</div>
-			</div>
-			
-		</div>
+					<div v-for="(result, n) in results">
+						<div class="result_card">
+							<a href="./detail.html">
+							<h2 class="result_title">{{result.title}}</h2>
+							</a>
+							<div class="result_snippet">{{result.abstract}}</div>
+						</div>
+					</div>
+					<el-pagination background layout="prev, pager, next" :total="1000">
+					</el-pagination>
+				</div>
+				
  			</el-main>
  			<el-footer>
+ 				<div style="text-align: center;">
  				presented by cltzz
+ 				</div>
  			</el-footer>
  		</el-container>
 		
 	</body>
-	<script type="text/javascript">
-		new Vue({
-			el: '#result',
-			data: {
-				results:[]
-			},
-			mounted() {
-    		if (localStorage.getItem('results')) {
-	      		try {
-	        		this.results = JSON.parse(localStorage.getItem('results'));
-	      		} catch(e) {
-	        		localStorage.removeItem('results');
-	      		}
-      		}
-      	}
-		});
-	</script>
-	<script>
-		new Vue({
-			el: '#searchbar',
-			data: function() {
-				return {
-					info: {
-						query: '',
-					},
-					role:'user'
-				}
-			},
-			methods: {
-				currRole(selVal){
-					this.role = selVal;
-					sessionStorage.setItem('role', this.role);
-				},
-				search(){
-					var _self = this;
-					window.location.href = 'result.html';
-					
-				},
-				
-			}
-		});
-	</script>
+		<script type="text/javascript" src="./js/result.js"></script>
 </html>
