@@ -63,7 +63,7 @@ def get_song(song_id):
 if __name__ == '__main__':
     start = time.time()
     with open("data.csv", "w") as f:
-        f.write("\t".join(['title', 'song_art_image_thumbnail_url',
+        f.write("\t".join(['api_id', 'title', 'song_art_image_thumbnail_url',
                        'album_name', 'album_cover_art_url', 'release_date',
                        'primary_artist_name', 'producer_artists_name',
                        'writer_artists_name', 'stats_pageviews', 
