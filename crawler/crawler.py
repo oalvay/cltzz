@@ -6,6 +6,7 @@
 from multiprocessing import Pool
 import requests, re, time, pickle
 from bs4 import BeautifulSoup
+from sys import argv, exit
 
 headers = {'Authorization':
            'Bearer NxudGFdc5dNGFgFn07XO9BMe7Gz0k6wAtQ9PkvX1dQC9FduLKMJYL7gnKLyZrQpf'}
@@ -62,7 +63,17 @@ def get_song(song_id):
         
 if __name__ == '__main__':
     start = time.time()
-    with open("data.csv", "w") as f:
+    
+    try:
+        global id_range
+        id_range = int(argv[1]), int(argv[2])
+    except:
+        exit('please provide two numbers as start and end ids for crawlers')
+    if min(id_range) < 0 or id_range[0] - id_range[1] > 0:
+        exit('make sure you provide valid range of ids')
+        
+    filename = f"data_{id_range[0]}_{id_range[1]}.csv"
+    with open(filename, "w") as f:
         f.write("\t".join(['api_id', 'title', 'song_art_image_thumbnail_url',
                        'album_name', 'album_cover_art_url', 'release_date',
                        'primary_artist_name', 'producer_artists_name',
@@ -71,12 +82,12 @@ if __name__ == '__main__':
         
     
     def call_api(song_id):
-        with open("data.csv", "a") as f:
+        with open(filename, "a") as f:
             t = get_song(song_id)
             if t != None:
                 f.write("\t".join(t))
 
     with Pool(16) as p:
-        p.map(call_api,range(100))
+        p.map(call_api, range(*id_range))
     duration = time.time() - start
     print("time used:", duration)
