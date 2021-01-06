@@ -1,3 +1,4 @@
 .Rhistory
 .DS_Store
-~/*.csv
+*.csv
+webapp/.DS_Store

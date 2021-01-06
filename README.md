@@ -20,35 +20,27 @@ name|function
 `webapp`| build a web application using the data and search engine
 `report`| write report
 
+### Data
+
+Since github does not support large size file (>100MB), please download the dataset from [this private kaggle link](http://www.kaggle.com/dataset/991400034c35e93ff75a6255470ea5a7ce796409259539c9b996da553b8dccba) and move the `.csv` files under the `engine` directory.
+
 ### Current Planning 
 
-#### Week 1 (12.14-12.20)
+#### stage 1 (completed)
 
 + build a demo web crawler (requests 1000 time)
-+ write HTML templates for front-page and search results. (no CSS)
++ write templates for front-page and search results.
 
-#### Week 2 (12.21-12.27)
+#### stage 2 (completed)
 
-+ build a full web crawler and collect data
-+ write HTML template for detail page
-+ typesetting three templates
++ build the full crawler
++ scraping the first one-million songs
 
-#### Week 3 (12.28-1.3)
+#### stage 3 (on going)
 
-+ preprocess and bulid inverted index (or b tree?)
-+ typesetting three templates 
-+ rendering three templates (overall theme)
-
-#### Week 4 (1.4-1.10)
-
-+ ???
-+ rendering three templates
-
-#### Week 5 (1.11-1.16)
-
-+ ???
-+ rendering three templates
-
++ build search engine
++ scraping all songs (6 millions)
+ 
 ---
 
 ## Team members
