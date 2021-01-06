@@ -9,7 +9,8 @@ from bs4 import BeautifulSoup
 from sys import argv, exit
 
 headers = {'Authorization':
-           'Bearer NxudGFdc5dNGFgFn07XO9BMe7Gz0k6wAtQ9PkvX1dQC9FduLKMJYL7gnKLyZrQpf'}
+           'Bearer NxudGFdc5dNGFgFn07XO9BMe7Gz0k6wAtQ9PkvX1dQC9FduLKMJYL7gnKLyZrQpf',
+           'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0'}
 def get_attribute(obj, sth, sth_else = None):
     if sth_else == None:
         try:
@@ -21,14 +22,38 @@ def get_attribute(obj, sth, sth_else = None):
             return obj[sth][sth_else] if obj[sth][sth_else] is not None else '_'
         except (KeyError, TypeError):
             return '_'
+        
+def get_url(id_, url, headers):
+    try:
+        example = requests.get(url, headers=headers)
+        return example
+    except requests.exceptions.ConnectionError:
+        print(f"id:{id_}, ConnectionError, sleeping")
+        time.sleep(4000)
+        return get_url(id_, url, headers)
+
 def get_song(song_id):
     
-    example = requests.get(f"https://api.genius.com/songs/{song_id}",
-                                     headers=headers).json()
-    print('code:', example['meta']['status'], ', id:',song_id)
-    if example['meta']['status'] != 200:
+    
+    example = requests.get(f"https://api.genius.com/songs/{song_id}", headers=headers)
+    print('code:', example.status_code, example.reason, ', id:',song_id)
+    
+    while example.status_code in [429, 500, 502, 503, 504]:
+        time2sleep = 4000
+        if example.status_code == 429:
+            time2sleep = int(example.headers['Retry-After']) + 100
+        print(f"sleeping, awake after {time2sleep}s")
+        time.sleep(time2sleep)
+        print('retry: code:', example.status_code, example.reason, ', id:',song_id)
+        example = get_url(song_id, f"https://api.genius.com/songs/{song_id}", headers)
+        
+    if example.status_code != 200:
         return None
-    song = example['response']['song']
+            
+    try:
+        song = example.json()['response']['song']
+    except ValueError:
+        return None
         
     medias = get_attribute(song, 'media')
     youtube_url = "_"
@@ -50,14 +75,19 @@ def get_song(song_id):
         youtube_url]
     
 
-    html = BeautifulSoup(
-        requests.get(song['url'], headers=headers).text,
-        "html.parser"
-    )
+    lyrics_example = get_url(song_id, song['url'], headers)
+    
+    if lyrics_example.status_code != 200:
+        print('lyrics code:', lyrics_example.status_code, ', id:',song_id)
+        return None
+    html = BeautifulSoup(lyrics_example.text, "html.parser")
 
     # fork from https://github.com/johnwmillr/LyricsGenius
     # Determine the class of the div
     div = html.find("div", class_=re.compile("^lyrics$|Lyrics__Root"))
+    if div is None:
+        print('lyrics code:', lyrics_example.status_code, ', id:',song_id)
+        return None
     lyrics = re.sub("[\s]+", " ", div.get_text(" "))
     return (song_id.__str__(), *info, lyrics+"\n")
         
@@ -72,6 +102,8 @@ if __name__ == '__main__':
     if min(id_range) < 0 or id_range[0] - id_range[1] > 0:
         exit('make sure you provide valid range of ids')
         
+#     global id_range 
+#     id_range = (1000, 3000)
     filename = f"data_{id_range[0]}_{id_range[1]}.csv"
     with open(filename, "w") as f:
         f.write("\t".join(['api_id', 'title', 'song_art_image_thumbnail_url',
@@ -87,7 +119,7 @@ if __name__ == '__main__':
             if t != None:
                 f.write("\t".join(t))
 
-    with Pool(16) as p:
+    with Pool(8) as p:
         p.map(call_api, range(*id_range))
     duration = time.time() - start
     print("time used:", duration)
