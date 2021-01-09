@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<!-- import CSS -->
+		{% load static %}
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" href="{% static 'engine/index.css'%}">
+		<!-- import Vue before Element -->
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<!-- import         JavaScript -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<!-- import JQuery -->
+		<script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="searchbar" id="searchbar" style="margin-top: 15%;width: 80%">
+				<el-image style="left: 10%;margin-bottom: 2%;width: 150px; height: 150px" src="{% static 'engine/images/logo.png'%}">
+				</el-image>
+					<el-form label-width="20%" :model="info" >
+						<el-form-item label="">
+						
+							<el-autocomplete style="width: 80%" class="inline-input" v-model="state2" :fetch-suggestions="querySearch" placeholder="" 
+							:trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
+							<i slot="prefix" class="el-input__icon el-icon-search"></i>
+
+						</el-form-item>
+						<el-form-item>
+							<el-button type="primary" @click="search">Search</el-button>
+							<el-button type="primary" @click="search">Advanced</el-button>
+						</el-form-item>
+					</el-form>
+		</div>
+	</body>
+		<script type="text/javascript" src="{% static 'engine/index.js'%}"></script>
+</html>

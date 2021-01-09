@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<!-- import CSS -->
+		{% load static %}
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" href="{% static 'engine/index.css'%}">
+		<link rel="stylesheet" href="{% static 'engine/result.css'%}">
+		<!-- import Vue before Element -->
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<!-- import         JavaScript -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<!-- import JQuery -->
+		<script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		
+ 		<el-container>
+ 			<el-header style="top: 2px;">
+
+				
+				<div class="header_searchbar" id="searchbar">
+					
+	 					<el-form :inline="true" label-width="10%" :model="info" style="margin-top: 1%;width: 90%">
+	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="{% static 'engine/images/logo.png'%}"></el-image>
+	 						<el-form-item >
+								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
+								<el-autocomplete style="width: 400px;" class="inline-input header_search" v-model="state2" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect">	
+								</el-autocomplete>
+								
+								<i slot="prefix" class="el-input__icon el-icon-search"></i>
+							</el-form-item>
+	 						<el-form-item >
+									<el-button class="header_search" type="primary" @click="search">Search</el-button>
+									<el-button type="primary" @click="search">Advanced</el-button>
+							</el-form-item>
+
+
+						</el-form>
+ 					
+ 				</div>
+ 				
+ 			</el-header>
+ 			<el-main>
+
+ 				<div style="height: 60px;">
+ 					
+ 				</div>
+				<div class="result_body" id="result">
+					<div v-for="(result, n) in results">
+						<div class="result_card">
+							<a href="./detail.html">
+							<h2 class="result_title">{{result.title}}</h2>
+							</a>
+							<div class="result_snippet">{{result.abstract}}</div>
+						</div>
+					</div>
+					<el-pagination background layout="prev, pager, next" :total="1000">
+					</el-pagination>
+				</div>
+				
+ 			</el-main>
+ 			<el-footer>
+ 				<div style="text-align: center;">
+ 				presented by cltzz
+ 				</div>
+ 			</el-footer>
+ 		</el-container>
+		
+	</body>
+		<script type="text/javascript" src="{% static 'engine/result.js'%}"></script>
+</html>
