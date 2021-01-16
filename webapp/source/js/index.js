@@ -2,7 +2,7 @@ new Vue({
       el: '#searchbar',
       data: function() {
         return {
-          info: {
+          info:{
             query: '',
           },
           restaurants: [{ "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
@@ -23,7 +23,7 @@ new Vue({
           { "value": "CoCo都可(北新泾店）", "address": "上海市长宁区仙霞西路" },
           { "value": "快乐柠檬（神州智慧店）", "address": "上海市长宁区天山西路567号1层R117号店铺" }],
           state1: '',
-              state2: ''
+          query: ''
         }
       },
       methods: {
@@ -33,38 +33,31 @@ new Vue({
         },
         search(){
           var _self = this;
-          //测试用数据
-          var result1 =[
-          {'title':'Something Just Like This','abstract':'I\'ve been reading books of old The legends and the myths Achilles and his gold Hercules and his gifts Spider-Man\'s control And Batman with his fists And clearly I don\'t see myself upon that list But she said, where\'d you wanna go? How much you'},
-          {'title':'Roxanne','abstract':'Roxanne You don\'t have to put on the red light Those days are over You don\'t have to sell your body to the night Roxanne You don\'t have to wear that dress tonight Walk the streets for money You don\'t care if it\'s wrong or if it\'s right Roxanne You don\'t have to put on the red light Roxanne You don\'t have to put on the red light Roxanne (Put on the red light)'},
-          {'title':'一路向北','abstract':'後視鏡裡的世界 越來越遠的道別 你轉身向北 側臉還是很美 我用眼光去追 竟聽見你的淚 在車窗外面徘徊 是我錯失的機會 你站的方位 跟我中間隔著淚 街景一直在後退 你的崩潰在窗外零碎 我一路向北 離開有你的季節'}];
-          localStorage.setItem('results',JSON.stringify(result1));
-          window.location.href = 'result.html';
-          // $.ajax({
-          //  url: "http://host:30000/search",
-          //  type: 'get',
-          //  dataType: 'json',
-          //  contentType:"application/json",
-          //  data: { info: JSON.stringify(_self.info) },
-          //  success: res => {
-          //    if(res.err == false){
-          //      sessionStorage.setItem('result',res.data.result);
-          //      _self.$message({
-          //        message: 'search success',
-          //        type: 'success',
-          //        center: true
-          //      });
-          //      setTimeout(() => { window.location.href = 'result.html'; }, 1000);
-          //    } else {
-          //      _self.$message({
-          //        message: '用户名或密码错误',
-          //        type: 'error',
-          //        center: true
-          //      });
-          //    }
-          //  },
-          //  error: err =>  console.log(err)
-          // });
+          $.ajax({
+           url: "http://127.0.0.1:8000/diangezi/search",
+           type: 'get',
+           dataType: 'json',
+           contentType:"application/json",
+           data: { 'query': _self.query},
+           success: res => {
+             if(res.err == false){
+               sessionStorage.setItem('results',res.ret);
+               _self.$message({
+                 message: 'search success',
+                 type: 'success',
+                 center: true
+               });
+               setTimeout(() => { window.location.href = 'result.html'; }, 1000);
+             } else {
+               _self.$message({
+                 message: '错误',
+                 type: 'error',
+                 center: true
+               });
+             }
+           },
+           error: err =>  console.log(err)
+          });
         },
         querySearch(queryString, cb) {
               var restaurants = this.restaurants;
