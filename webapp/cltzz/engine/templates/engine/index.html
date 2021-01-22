@@ -17,19 +17,11 @@
 		<div class="searchbar" id="searchbar" style="margin-top: 15%;width: 80%">
 				<el-image style="left: 10%;margin-bottom: 2%;width: 150px; height: 150px" src="{% static 'engine/images/logo.png'%}">
 				</el-image>
-					<el-form label-width="20%" :model="info" >
-						<el-form-item label="">
-						
-							<el-autocomplete style="width: 80%" class="inline-input" v-model="state2" :fetch-suggestions="querySearch" placeholder="" 
-							:trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
-							<i slot="prefix" class="el-input__icon el-icon-search"></i>
-
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="search">Search</el-button>
-							<el-button type="primary" @click="search">Advanced</el-button>
-						</el-form-item>
-					</el-form>
+					<form name = "query_info" action="{% url 'engine:search' %}" method="post">
+ 					 {% csrf_token %}
+ 					    <input type="text" id="query" name="query"><br>
+  					    <input type="submit" value="Search">
+					</form>
 		</div>
 	</body>
 		<script type="text/javascript" src="{% static 'engine/index.js'%}"></script>

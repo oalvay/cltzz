@@ -50,19 +50,22 @@
  				<div style="height: 60px;">
  					
  				</div>
+ 				{% if result %}
 				<div class="result_body" id="result">
-					<div v-for="(result, n) in results">
+					{% for song in result %}
 						<div class="result_card">
-							<a href="./detail.html">
-							<h2 class="result_title">{{result.title}}</h2>
+							<a href="./detail">
+							<h2 class="result_title">{{song.title}}</h2>
 							</a>
-							<div class="result_snippet">{{result.abstract}}</div>
+							<div class="result_snippet">{{song.abstract}}</div>
 						</div>
-					</div>
+					{% endfor %}
 					<el-pagination background layout="prev, pager, next" :total="1000">
 					</el-pagination>
 				</div>
-				
+				{% else %}
+				<p> No songs found. </p>
+				{% endif %}
  			</el-main>
  			<el-footer>
  				<div style="text-align: center;">
