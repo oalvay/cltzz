@@ -17,31 +17,39 @@ new Vue({
         },
         search(){
           var _self = this;
-          $.ajax({
-           url: "http://127.0.0.1:8000/diangezi/search",
-           type: 'get',
-           dataType: 'json',
-           contentType:"application/json",
-           data: { 'query': _self.query},
-           success: res => {
-             if(res.err == false){
-               sessionStorage.setItem('results',res.ret);
-               _self.$message({
-                 message: 'search success',
-                 type: 'success',
-                 center: true
-               });
+          axios
+            .post('http://127.0.0.1:8080/search?query='+JSON.stringify(this.query),{
+  })
+            .then(function (response) {
+              console.log(response);
+               sessionStorage.setItem('results',response.data.ret);
                setTimeout(() => { window.location.href = 'result.html'; }, 1000);
-             } else {
-               _self.$message({
-                 message: '错误',
-                 type: 'error',
-                 center: true
-               });
-             }
-           },
-           error: err =>  console.log(err)
-          });
+            })
+          // $.ajax({
+          //  url: "http://127.0.0.1:8080/search",
+          //  type: 'get',
+          //  dataType: 'json',
+          //  contentType:"application/json",
+          //  data: { 'query': _self.query},
+          //  success: res => {
+          //    if(res.err == false){
+          //      sessionStorage.setItem('results',res.ret);
+          //      _self.$message({
+          //        message: 'search success',
+          //        type: 'success',
+          //        center: true
+          //      });
+          //      setTimeout(() => { window.location.href = 'result.html'; }, 1000);
+          //    } else {
+          //      _self.$message({
+          //        message: '错误',
+          //        type: 'error',
+          //        center: true
+          //      });
+          //    }
+          //  },
+          //  error: err =>  console.log(err)
+          // });
         },
         querySearch(queryString, cb) {
               var restaurants = this.restaurants;

@@ -3,7 +3,6 @@ html{
 }
 .searchbar{
 	width: 100%;
-	background-image: url('../images/login.jpg');
 	background-position: center;
 	background-repeat: no-repeat;
     background-attachment: fixed;
