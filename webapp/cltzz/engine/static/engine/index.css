@@ -1,0 +1,26 @@
+html{
+	word-wrap: break-word;
+}
+.searchbar{
+	width: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+	position: absolute;
+    top: 0;
+	bottom: 0;
+    left: 0;
+	text-align: center;
+	overflow:hidden;
+	
+}
+.box-card {
+	width: 55%;
+	height: 50%;
+	position: absolute;
+	top: 10%;
+	left: 20%;
+	overflow:auto;
+	background-color: rgba(255, 255, 255, 0.9);
+}

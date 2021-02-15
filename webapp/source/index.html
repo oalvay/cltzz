@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="./css/index.css">
 		<!-- import Vue before Element -->
 		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+    	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<!-- import         JavaScript -->
 		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 		<!-- import JQuery -->
@@ -19,7 +20,7 @@
 					<el-form label-width="20%" :model="info" >
 						<el-form-item label="">
 						
-							<el-autocomplete style="width: 80%" class="inline-input" v-model="state2" :fetch-suggestions="querySearch" placeholder="" 
+							<el-autocomplete style="width: 80%" class="inline-input" v-model="query" :fetch-suggestions="querySearch" placeholder="" 
 							:trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
 							<i slot="prefix" class="el-input__icon el-icon-search"></i>
 
