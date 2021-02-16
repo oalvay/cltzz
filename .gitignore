@@ -7,3 +7,5 @@ __pycache__/
 *.iml
 *.xml
 webapp/cltzz/engine/.idea/workspace.xml
+webapp/cltzz/engine/migrations/0*.py
+**/db.sqlite3

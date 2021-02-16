@@ -1,8 +1,16 @@
 from django.http import HttpResponse
+from .models import Song
 import json
 
 
 def search(request):
+
+    def search(query):
+        return [3000012, 3000165, 3000173]
+    song_ids = search('ss')
+    for song_id in song_ids:
+         a = Song.objects.get(pk = song_id)
+
     query = request.GET.get('query')
     print(query)
     result = [

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Song
 import json
 
 
@@ -14,6 +15,13 @@ def detail(request):
 
 def search(request):
      # query = request.POST['query']
+    def search(query):
+        return [3000012, 3000165, 3000173]
+    song_ids = search('ss')
+    for song_id in song_ids:
+         a = Song.objects.get(pk = song_id)
+         #a.title...
+
     print(request.POST)
     result =[
           {'title':'Something Just Like This','abstract':'I\'ve been reading books of old The legends and the myths Achilles and his gold Hercules and his gifts Spider-Man\'s control And Batman with his fists And clearly I don\'t see myself upon that list But she said, where\'d you wanna go? How much you'},
