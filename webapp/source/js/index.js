@@ -18,11 +18,11 @@ new Vue({
         search(){
           var _self = this;
           axios
-            .post('http://127.0.0.1:8080/search?query='+JSON.stringify(this.query),{
+            .post('http://52.151.79.44:30000/engine/search?query='+JSON.stringify(this.query),{
   })
             .then(function (response) {
               console.log(response);
-               sessionStorage.setItem('results',response.data.ret);
+               localStorage.setItem('results',JSON.stringify(response.data.ret));
                setTimeout(() => { window.location.href = 'result.html'; }, 1000);
             })
           // $.ajax({
