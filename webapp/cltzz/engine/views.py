@@ -14,13 +14,16 @@ def detail(request):
     return render(request, 'engine/detail.html')
 
 def search(request):
-     # query = request.POST['query']
+    query = request.GET.get('query')
+    print(query)
     song_ids = [1000012, 1000165, 1000173]
-    results = dict()
+    results = []
     for song_id in song_ids:
-         a = Song.objects.get(pk = song_id)
-         print(a.__dict__)
-         results[a.title] = a.lyrics
+        a = Song.objects.get(pk = song_id)
+        song = {}
+        song['title']= a.title
+        song['abstract']=a.lyrics[0:400]
+        results.append(song)
 
     # query = request.GET.get('query')
     # print(query)
