@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Song
+from .utils.retrieve import *
 import json
 
 
@@ -27,5 +28,5 @@ def search(request):
 
     # query = request.GET.get('query')
     # print(query)
-    resp = {'err': 'false', 'detail': 'Get success', 'ret': results}
+    resp = {'err': 'false', 'detail': 'Get success', 'query': query, 'ret': results}
     return HttpResponse(json.dumps(resp), content_type="application/json")

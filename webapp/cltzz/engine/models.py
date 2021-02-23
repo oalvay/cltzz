@@ -15,3 +15,6 @@ class Song(models.Model):
     stats_hot = models.BooleanField()
     youtube_url = models.CharField(max_length=200)
     lyrics = models.TextField()
+
+class Index(models.Model):
+    Dict = models.JSONField()
