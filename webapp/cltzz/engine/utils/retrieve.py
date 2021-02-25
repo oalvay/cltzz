@@ -22,8 +22,10 @@ def retrieve(query: str, docs_num: int)-> list:
     """basic ranked retrieve using TFIDF
     docs_num: number of documents to retrieve"""
     start_time = ttime()
-    terms = tuple(map(token_index.__getitem__, tokenize(query)))
-    print(terms)
+    terms = tuple([token_index[token] for token in tokenize(query) if token in token_index])
+
+    if len(terms) == 0:
+        return [], start_time - ttime()
     
     # extract only columns of tokens in the query (duplicated tokens(cols) are possible)
     relevant_freqs = freq_matrix[:, terms].tocsr()
