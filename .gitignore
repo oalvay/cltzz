@@ -8,8 +8,11 @@
 **/__pycache__/
 *.pyc
 *.iml
-*.iml
+*.txt
+*.pkl
+*.npz
 *.xml
+*.ipynb
 webapp/cltzz/engine/.idea/workspace.xml
 webapp/cltzz/engine/migrations/0*.py
-**/db.sqlite3
+*.sqlite3

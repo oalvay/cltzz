@@ -17,4 +17,9 @@ class Song(models.Model):
     lyrics = models.TextField()
 
 class Index(models.Model):
-    Dict = models.JSONField()
+    pass
+
+class Document(models.Model):
+    api_id = models.IntegerField(default=-1)
+    token = models.ForeignKey(Index, on_delete=models.CASCADE)
+    List = models.JSONField()

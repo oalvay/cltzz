@@ -1,52 +1,67 @@
-from engine.models import Index
+from engine.models import Index, Document
 from django.core.exceptions import ObjectDoesNotExist
 from tqdm import tqdm
-import pickle
+import pickle, multiprocessing
 
 global tokenIndex
-tokenIndex = dict()
-new_id = 1
-pbar = tqdm(total=3488951)
-Index.objects.all().delete()
+#pbar = tqdm(total=3488951)
 
 with open("frequency_index.pkl", 'rb') as f:
-    # already take out words with freq == 1
     frequency_index = pickle.load(f)
-not_rare_words = tuple(frequency_index.keys())
 
-def token2id(token, new_id):
-    if token not in not_rare_words:
-            token = '___'
-    if token in tokenIndex:
-        return tokenIndex[token], new_id
-    else:
-        tokenIndex[token] = new_id
-        return tokenIndex[token], new_id + 1
+not_rare_words = tuple(key for key, value in frequency_index.items() if value > 2)
 
-with open("docs.txt", "r") as f:
-    while True:
-        content = f.readline()[:-1]
-        if content:
-            doc_id, tokens = content.split("\t")
-            # loop over tokenized document
-            for idx, token in enumerate(tokens.split()):
-                # get id of the token
-                token_id, new_id = token2id(token, new_id)
-                try:
-                    temp = Index.objects.get(pk=token_id)
-                    if doc_id not in temp.Dict:
-                        temp.Dict[doc_id] = [idx]
-                    else:
-                        temp.Dict[doc_id].append(idx)
-                except ObjectDoesNotExist:
-                    temp = Index(Dict = {doc_id: [idx]})
-                    temp.id = token_id
-                temp.save()
-            del doc_id, content, tokens, token_id, temp
-            pbar.update(1)
-        else:
-            pbar.close()
-            break
+tokenIndex = {token: token_id for token_id, token in enumerate(not_rare_words)}
+
+# tokenIndex['___'] = len(not_rare_words)
+# rare = Index(Dict = dict())
+# rare.id = tokenIndex['___']
+
+print("init...")
+Index.objects.all().delete()
+objs = []
+for i in tqdm(range(len(not_rare_words))):
+    objs.append(Index(pk=tokenIndex[not_rare_words[i]]))
+    if i % 19999 == 0:
+        Index.objects.bulk_create(objs)
+        del objs
+        objs = []
+Index.objects.bulk_create(objs)
+del objs
 
 with open("token_index.pkl", 'wb') as f:
     pickle.dump(tokenIndex, f)
+
+Document.objects.all().delete()
+
+objs = []
+
+print("working...")
+with open("docs.txt", "r") as f:
+    for count in tqdm(range(3040000)):
+        content = f.readline()[:-1]
+        if count < 1080000:
+            del content
+            continue
+        if content:
+            doc_id, tokens = content.split("\t")
+            tinyIndex = dict()
+            for idx, token in enumerate(tokens.split()):
+                try:
+                    tinyIndex[token].append(idx)
+                except KeyError:
+                    tinyIndex[token] = [idx]
+            for token, indexes in tinyIndex.items():
+                objs.append(Document(
+                    token_id = tokenIndex[token],
+                    api_id = int(doc_id),
+                    List = indexes))
+            del doc_id, content, tokens, tinyIndex, idx, token, indexes
+            if count % 9999 == 0:
+                Document.objects.bulk_create(objs)
+                del objs
+                objs = []
+        else:
+            Document.objects.bulk_create(objs)
+            del objs
+            break
