@@ -11,7 +11,9 @@
 		<!-- import         JavaScript -->
 		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 		<!-- import JQuery -->
-		<script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
+
+    	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    	<script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
 		<style type="text/css">
 			
 		</style>
@@ -28,7 +30,7 @@
 	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image>
 	 						<el-form-item >
 								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
-								<el-autocomplete style="width: 400px;" class="inline-input header_search" v-model="state2" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect">	
+								<el-autocomplete id ="queryTextBox" style="width: 400px;" class="inline-input header_search" v-model="query" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect">	
 								</el-autocomplete>
 								
 								<i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -52,8 +54,14 @@
 				<div class="result_body" id="result">
 					<div v-for="(result, n) in results">
 						<div class="result_card">
-							<a href="./detail.html">
+							<a>
 							<h2 class="result_title">{{result.title}}</h2>
+							</a>
+							<a >
+							<h2 class="result_title">{{result.id}}</h2>
+							</a>
+							<a >
+							<h2 class="result_title">{{result.artist}}</h2>
 							</a>
 							<div class="result_snippet">{{result.abstract}}</div>
 						</div>

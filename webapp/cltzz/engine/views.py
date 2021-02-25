@@ -23,7 +23,9 @@ def search(request):
         song = {}
         song['title']= a.title
         song['abstract']=a.lyrics[0:400]
+        song['artist'] = a.primary_artist_name
+        song['id'] = a.api_id
         results.append(song)
-        
+    print(results)
     resp = {'err': 'false', 'detail': 'Get success', 'query': query, 'ret': results}
     return HttpResponse(jdumps(resp), content_type="application/json")

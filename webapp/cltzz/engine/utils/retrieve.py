@@ -5,10 +5,10 @@ from pickle import load as pload
 import re, string
 from time import time as ttime
 
-with open("token_index.pkl", 'rb') as f:
+with open("../../token_index.pkl", 'rb') as f:
     token_index = pload(f)
 docs_len = 3039519
-freq_matrix = scipy.sparse.load_npz("freq_matrix.npz")
+freq_matrix = scipy.sparse.load_npz("../../freq_matrix.npz")
 
 def tokenize(text: str)-> list:
     text = re.sub('\s+', ' ', text)
