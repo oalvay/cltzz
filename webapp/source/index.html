@@ -20,8 +20,8 @@
 					<el-form label-width="20%" :model="info" >
 						<el-form-item label="">
 						
-							<el-autocomplete style="width: 80%" class="inline-input" v-model="query" :fetch-suggestions="querySearch" placeholder="" 
-							:trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
+							<el-input style="width: 80%" class="inline-input" v-model="query" :fetch-suggestions="querySearch" placeholder="" 
+							:trigger-on-focus="false" @select="handleSelect" @keyup.enter="search"></el-input>
 							<i slot="prefix" class="el-input__icon el-icon-search"></i>
 
 						</el-form-item>
@@ -32,5 +32,7 @@
 					</el-form>
 		</div>
 	</body>
+
+		<script type="text/javascript" src="./js/config.js"></script>
 		<script type="text/javascript" src="./js/index.js"></script>
 </html>

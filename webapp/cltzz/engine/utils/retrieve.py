@@ -42,7 +42,7 @@ def retrieve(query: str, docs_num: int)-> list:
 
     tfidf = (1 + relevant_freqs.toarray()) @ np.log10(docs_len/docFreq)
 
-    return np.argsort(tfidf)[:-docs_num:-1], start_time - ttime()
+    return np.argsort(tfidf)[:-docs_num:-1], ttime() - start_time
 
 def rerank(retrieved:list)-> list:
     """rerank retrieved documents with complex models (n-gram etc)"""

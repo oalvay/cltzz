@@ -1,3 +1,4 @@
+
 new Vue({
       el: '#searchbar',
       data: function() {
@@ -14,14 +15,18 @@ new Vue({
         },
         search(){
           var _self = this;
+          _self.$message('Searching...');
           axios
-            .post('http://127.0.0.1:8080/engine/search?query='+JSON.stringify(this.query),{
+            .post(ip_address+'/engine/search?query='+JSON.stringify(this.query),{
+
   })
             .then(function (response) {
               console.log(response);
                localStorage.setItem('results',JSON.stringify(response.data.ret));
                sessionStorage.setItem('cur_query',response.data.query)
-               setTimeout(() => { window.location.href = 'result.html'; }, 1000);
+               sessionStorage.setItem('exe_time',response.data.exe_time)
+               
+               setTimeout(() => { window.location.href = 'result.html'; }, 2000);
             })
         },
         querySearch(queryString, cb) {
@@ -43,7 +48,14 @@ new Vue({
             }
         
       },
-          // mounted() {
-          //   // this.restaurants = this.loadAll();
-          // }
+    //     mounted() {
+    //       var self = this;
+    //       document.onkeydown = function(e) {
+    //       let ev = document.all ? window.event : e
+    //       if (ev.keyCode === 13) {
+    //           self.search;
+    //       }
+    // }
+    //         // this.restaurants = this.loadAll();
+    //       }
     });
