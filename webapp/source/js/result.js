@@ -28,7 +28,7 @@ new Vue({
               this.results_page = this.results.slice(0,10)
               this.page_count = parseInt(this.results.length/this.page_size)+1
               this.$message({
-                message:'Success search in '+sessionStorage.getItem('exe_time')+' seconds',
+                message:'Successfully found '+this.results.length+' results in '+sessionStorage.getItem('exe_time')+' seconds',
                 type:'success'
               });
             } catch(e) {
