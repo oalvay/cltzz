@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import Song
 from .utils.retrieve import *
 from json import dumps as jdumps
-
+from time import time as ttime
 
 def index(request):
     return render(request, 'engine/index.html')
@@ -15,10 +15,12 @@ def detail(request):
     return render(request, 'engine/detail.html')
 
 def search(request):
+    start_time = ttime()
     query = request.GET.get('query')
-    matched_docs, exe_time = retrieve(query, docs_num=50)
+    matched_docs, clean_query = retrieve(query, docs_num=50)
+    ranked_docs = rerank(matched_docs, clean_query)
     results = []
-    for song_id in matched_docs:
+    for song_id in ranked_docs:
         a = Song.objects.get(pk = song_id)
         song = {}
         song['title']= a.title
@@ -26,7 +28,7 @@ def search(request):
         song['artist'] = a.primary_artist_name
         song['id'] = a.api_id
         results.append(song)
-    resp = {'err': 'false', 'detail': 'Get success','exe_time':exe_time, 'query': query, 'ret': results}
+    resp = {'err': 'false', 'detail': 'Get success','exe_time':ttime() - start_time, 'query': query, 'ret': results}
     return HttpResponse(jdumps(resp), content_type="application/json")
 
 def detail(request):

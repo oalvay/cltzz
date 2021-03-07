@@ -4,6 +4,7 @@ import scipy.sparse
 from pickle import load as pload
 import re, string
 from time import time as ttime
+from sklearn.feature_extraction.text import TfidfVectorizer as ngram
 
 with open('../../token_index.pkl', 'rb') as f:
     token_index = pload(f)
@@ -23,11 +24,10 @@ def tokenize(text: str)-> list:
 def retrieve(query: str, docs_num: int)-> list:
     """basic ranked retrieve using TFIDF
     docs_num: number of documents to retrieve"""
-    start_time = ttime()
     terms = tuple([token_index[token] for token in tokenize(query) if token in token_index])
 
-    if len(terms) == 0:
-        return [], start_time - ttime()
+    if len(terms) <= 0 or len(terms) >= 30:
+        return [], clean(query)
     
     # extract only columns of tokens in the query (duplicated tokens(cols) are possible)
     relevant_freqs = freq_matrix[:, terms].tocsr()
@@ -43,10 +43,17 @@ def retrieve(query: str, docs_num: int)-> list:
     relevant_freqs.data = np.log10(relevant_freqs.data)
 
     tfidf = (1 + relevant_freqs.astype(float).toarray()) @ np.log10(docs_len/docFreq)
-
-    return np.argsort(tfidf)[:-docs_num:-1], ttime() - start_time
-
-def rerank(retrieved:list)-> list:
-    """rerank retrieved documents with complex models (n-gram etc)"""
-    pass
     
+    rank = np.argsort(tfidf)[:-docs_num:-1]
+    
+    return rank, clean(query)
+
+def rerank(retrieved:list, query:str)-> list:
+    """rerank retrieved documents with complex models (n-gram etc)"""
+    model = ngram(ngram_range=(1,3))
+    model.fit([query])
+    
+    result = model.transform(clean(Song.objects.get(pk=doc_id).lyrics) for
+                     doc_id in retrieved).sum(axis=1)
+    
+    return [x for _,x in sorted(zip(result,retrieved), reverse = True)]
