@@ -50,7 +50,7 @@ def retrieve(query: str, docs_num: int)-> list:
 
 def rerank(retrieved:list, query:str)-> list:
     """rerank retrieved documents with complex models (n-gram etc)"""
-    model = ngram(ngram_range=(1,3))
+    model = ngram(ngram_range=(1,5))
     model.fit([query])
     
     result = model.transform(clean(Song.objects.get(pk=doc_id).lyrics) for
