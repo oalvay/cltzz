@@ -21,6 +21,8 @@ def tokenize(text: str)-> list:
     text = text.translate(str.maketrans('', '', string.digits))
     return text.split()
 
+clean = lambda text: " ".join(tokenize(text))
+
 def retrieve(query: str, docs_num: int)-> list:
     """basic ranked retrieve using TFIDF
     docs_num: number of documents to retrieve"""
