@@ -16,9 +16,9 @@ def detail(request):
 
 def search(request):
     query = request.GET.get('query')
-    docs, exe_time = retrieve(query, docs_num=10)
+    matched_docs, exe_time = retrieve(query, docs_num=50)
     results = []
-    for song_id in docs:
+    for song_id in matched_docs:
         a = Song.objects.get(pk = song_id)
         song = {}
         song['title']= a.title

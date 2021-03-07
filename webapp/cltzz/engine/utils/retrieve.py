@@ -1,19 +1,21 @@
 import numpy as np
-from ..models import Song, Index, Document
+from ..models import Song
 import scipy.sparse
 from pickle import load as pload
 import re, string
 from time import time as ttime
 
-with open("token_index.pkl", 'rb') as f:
+with open('token_index.pkl', 'rb') as f:
     token_index = pload(f)
-docs_len = 3039519
+with open('docs_id.pkl', 'rb') as f:
+    docs_len = len(pload(f))
+
 freq_matrix = scipy.sparse.load_npz("freq_matrix.npz")
 
 def tokenize(text: str)-> list:
     text = re.sub('\s+', ' ', text)
     text = re.sub(r'(www|http)\S+', '', text.lower())
-    text = re.sub("\[.*\]", "", text)
+    text = re.sub("\[[^\[\]]+\]", "", text)
     text = text.translate(str.maketrans('', '', string.punctuation))
     text = text.translate(str.maketrans('', '', string.digits))
     return text.split()
@@ -40,9 +42,9 @@ def retrieve(query: str, docs_num: int)-> list:
     # calculate TFIDF
     relevant_freqs.data = np.log10(relevant_freqs.data)
 
-    tfidf = (1 + relevant_freqs.toarray()) @ np.log10(docs_len/docFreq)
+    tfidf = (1 + relevant_freqs.astype(float).toarray()) @ np.log10(docs_len/docFreq)
 
-    return np.argsort(tfidf)[:-docs_num:-1], start_time - ttime()
+    return np.argsort(tfidf)[:-docs_num:-1], ttime() - start_time
 
 def rerank(retrieved:list)-> list:
     """rerank retrieved documents with complex models (n-gram etc)"""
