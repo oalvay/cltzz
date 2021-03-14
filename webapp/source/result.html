@@ -26,7 +26,7 @@
 				
 				<div class="header_searchbar" id="searchbar">
 					
-	 					<el-form :inline="true" label-width="10%" :model="info" style="margin-top: 1%;width: 90%">
+	 					<el-form :inline="true" label-width="10%" @keyup.enter.native="search" @submit.native.prevent style="margin-top: 1%;width: 90%">
 	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image>
 	 						<el-form-item >
 								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
@@ -54,15 +54,12 @@
 				<div class="result_body" id="result">
 					<div v-for="(result, n) in results_page">
 						<div class="result_card">
-							<a>
+							<a @click="detail(result.id)">
 							<h2 class="result_title">{{result.title}}</h2>
 							</a>
-							<a >
-							<h2 class="result_title">{{result.id}}</h2>
-							</a>
-							<a >
+							
 							<h2 class="result_title">{{result.artist}}</h2>
-							</a>
+							
 							<div class="result_snippet">{{result.abstract}}</div>
 						</div>
 					</div>

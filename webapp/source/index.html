@@ -17,11 +17,10 @@
 		<div class="searchbar" id="searchbar" style="margin-top: 15%;width: 80%">
 				<el-image style="left: 10%;margin-bottom: 2%;width: 150px; height: 150px" src="./pics/logo.png">
 				</el-image>
-					<el-form label-width="20%" :model="info" >
-						<el-form-item label="">
+					<el-form label-width="20%" @keyup.enter.native="search" @submit.native.prevent>
+						<el-form-item label="" >
 						
-							<el-input style="width: 80%" class="inline-input" v-model="query" :fetch-suggestions="querySearch" placeholder="" 
-							:trigger-on-focus="false" @select="handleSelect" @keyup.enter="search"></el-input>
+							<el-input style="width: 80%" v-on:@keyup.enter.native="search" class="inline-input" v-model="query" placeholder=""></el-input>
 							<i slot="prefix" class="el-input__icon el-icon-search"></i>
 
 						</el-form-item>

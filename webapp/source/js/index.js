@@ -1,4 +1,3 @@
-
 new Vue({
       el: '#searchbar',
       data: function() {
