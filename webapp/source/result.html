@@ -30,8 +30,8 @@
 	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image>
 	 						<el-form-item >
 								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
-								<el-input id ="queryTextBox" style="width: 400px;" class="inline-input header_search" v-model="query" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect" @keyup.enter.native="search">	
-								</el-input>
+								<el-autocomplete id ="queryTextBox" style="width: 400px;" class="inline-input header_search" v-model="query" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect" @keyup.enter.native="search">	
+								</el-autocomplete>
 								
 								<i slot="prefix" class="el-input__icon el-icon-search"></i>
 							</el-form-item>
@@ -39,10 +39,7 @@
 									<el-button class="header_search" type="primary" @click="search">Search</el-button>
 									<el-button type="primary" @click="search">Advanced</el-button>
 							</el-form-item>
-
-
 						</el-form>
- 					
  				</div>
  				
  			</el-header>
@@ -82,5 +79,7 @@
 		
 	</body>
 		<script type="text/javascript" src="./js/config.js"></script>
+		<script type="text/javascript" src="./js/vocab.js"></script>
+		<script type="text/javascript" src="./js/index.js"></script>
 		<script type="text/javascript" src="./js/result.js"></script>
 </html>

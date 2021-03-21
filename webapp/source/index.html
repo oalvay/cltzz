@@ -20,7 +20,7 @@
 					<el-form label-width="20%" @keyup.enter.native="search" @submit.native.prevent>
 						<el-form-item label="" >
 						
-							<el-input style="width: 80%" v-on:@keyup.enter.native="search" class="inline-input" v-model="query" placeholder=""></el-input>
+							<el-autocomplete style="width: 80%" v-on:@keyup.enter.native="search" class="inline-input" v-model="query" placeholder="" :fetch-suggestions="querySearch" @select="handleSelect"></el-autocomplete>
 							<i slot="prefix" class="el-input__icon el-icon-search"></i>
 
 						</el-form-item>
@@ -33,5 +33,6 @@
 	</body>
 
 		<script type="text/javascript" src="./js/config.js"></script>
+		<script type="text/javascript" src="./js/vocab.js"></script>
 		<script type="text/javascript" src="./js/index.js"></script>
 </html>

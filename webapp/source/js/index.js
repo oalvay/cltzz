@@ -1,8 +1,10 @@
+
 new Vue({
       el: '#searchbar',
       data: function() {
         return {
-          restaurants: [],
+          suggestions:[],
+          vocab:[],
           state1: '',
           query: ''
         }
@@ -29,32 +31,47 @@ new Vue({
             })
         },
         querySearch(queryString, cb) {
-              var restaurants = this.restaurants;
-              var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-              // 调用 callback 返回建议列表的数据
-              cb(results);
+              if(queryString!=""){
+                var words = queryString.split(' ');
+                var lastwords = words.pop();
+                var str = words.join(' ')
+
+                var vocab = this.vocab;
+                console.log(queryString);
+                var vocabList = lastwords ? vocab.filter(this.createFilter(lastwords)) : vocab;
+                vocabList = vocabList.slice(0,20)
+                // 调用 callback 返回建议列表的数据
+                var results = new Array()
+                if(vocabList.length!=0){
+                  for(var i=0;i<vocabList.length;i++){
+                    var item ={'value':str+" "+ vocabList[i]}
+                    results.push(item)
+                  }
+                  
+                }
+                cb(results);
+              }
+            },
+            createStateFilter(queryString) {
+              return (program) => {
+                return (program.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1);
+              };
             },
             createFilter(queryString) {
               return (restaurant) => {
-                  return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                  return (restaurant.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
               };
             },
             loadAll() {
-            return [];
         },
             handleSelect(item) {
               console.log(item);
             }
         
       },
-    //     mounted() {
-    //       var self = this;
-    //       document.onkeydown = function(e) {
-    //       let ev = document.all ? window.event : e
-    //       if (ev.keyCode === 13) {
-    //           self.search;
-    //       }
-    // }
-    //         // this.restaurants = this.loadAll();
-    //       }
+        mounted() {
+          this.vocab =vocab
+    }
+            // this.restaurants = this.loadAll();
+          
     });
