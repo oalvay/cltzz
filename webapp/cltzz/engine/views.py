@@ -5,6 +5,12 @@ from .utils.retrieve import *
 from json import dumps as jdumps
 from time import time as ttime
 
+import requests, re
+from bs4 import BeautifulSoup
+
+headers = {'Authorization':
+           'Bearer NxudGFdc5dNGFgFn07XO9BMe7Gz0k6wAtQ9PkvX1dQC9FduLKMJYL7gnKLyZrQpf'}
+
 def index(request):
     return render(request, 'engine/index.html')
 
@@ -83,10 +89,28 @@ def detail(request):
     a = Song.objects.get(pk=doc_id)
     song = {}
     song['title']= a.title
-    song['lyrics']= a.lyrics
     song['image_url']= a.song_art_image_thumbnail_url
     song['artist'] = a.primary_artist_name
     song['album']=a.album_name
     song['youtube_url'] = a.youtube_url
+
+    try:
+        api_info = requests.get(f"https://api.genius.com/songs/{a.api_id}",\
+                     headers=headers, timeout = 5)
+        if api_info.status_code != 200:
+            1 / 0
+        else:
+            lyrics_url = api_info.json()['response']['song']['url']
+            lyrics_info = requests.get(lyrics_url, headers=headers, timeout=5)
+            if lyrics_info.status_code != 200:
+                1 / 0
+            else:
+                html = BeautifulSoup(lyrics_info.text, "html.parser")
+                div = html.find("div", class_=re.compile("^lyrics$|Lyrics__Root"))
+                song['lyrics']= re.sub("\n+", "\n", div.get_text("\n"))
+    except:
+        song['lyrics']= a.lyrics
+
+
     resp = {'err': 'false', 'detail': 'Get success', 'ret': song}
     return HttpResponse(jdumps(resp), content_type="application/json")
