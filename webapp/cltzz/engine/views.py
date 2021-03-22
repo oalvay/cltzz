@@ -4,9 +4,12 @@ from .models import Song
 from .utils.retrieve import *
 from json import dumps as jdumps
 from time import time as ttime
+from autocorrect import Speller
 
 import requests, re
 from bs4 import BeautifulSoup
+
+spell = Speller()
 
 headers = {'Authorization':
            'Bearer NxudGFdc5dNGFgFn07XO9BMe7Gz0k6wAtQ9PkvX1dQC9FduLKMJYL7gnKLyZrQpf'}
@@ -23,6 +26,10 @@ def result(request):
 def search(request):
     start_time = ttime()
     query = request.GET.get('query')
+    corrent_query = spell(query)
+    if corrent_query == query:
+        corrent_query = ' '
+
     matched_docs, clean_query = retrieve(query, docs_num=250)
     selected_docs = []
     titles = []
@@ -53,11 +60,11 @@ def search(request):
         # the same applied to lyrics
         if lyricses[-1] in lyricses[:-1]:
             same_lyrics_song = lyricses[:-1].index(lyricses[-1])
-            if pageviews[same_title_song] <= pageviews[-1]:
+            if pageviews[same_lyrics_song] <= pageviews[-1]:
                 selected_docs.pop(same_lyrics_song)
                 titles.pop(same_lyrics_song)
                 lyricses.pop(same_lyrics_song)
-                pageviews.pop(same_title_song)
+                pageviews.pop(same_lyrics_song)
             else:
                 selected_docs.pop()
                 titles.pop()
@@ -80,7 +87,8 @@ def search(request):
         song['id'] = str(song_id)
         results.append(song)
 
-    resp = {'err': 'false', 'detail': 'Get success','exe_time':ttime() - start_time, 'query': query, 'ret': results}
+    resp = {'err': 'false', 'detail': 'Get success','exe_time':ttime() - start_time,\
+             'query': query, 'ret': results, 'do_you_mean': corrent_query}
     return HttpResponse(jdumps(resp), content_type="application/json")
 
 def detail(request):
