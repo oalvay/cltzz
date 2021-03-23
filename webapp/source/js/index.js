@@ -6,7 +6,8 @@ new Vue({
           suggestions:[],
           vocab:[],
           state1: '',
-          query: ''
+          query: '',
+          do_you_mean:'',
         }
       },
       methods: {
@@ -24,10 +25,18 @@ new Vue({
             .then(function (response) {
               console.log(response);
                localStorage.setItem('results',JSON.stringify(response.data.ret));
-               sessionStorage.setItem('cur_query',response.data.query)
-               sessionStorage.setItem('exe_time',response.data.exe_time)
+               sessionStorage.setItem('cur_query',response.data.query);
+               sessionStorage.setItem('exe_time',response.data.exe_time);
+               sessionStorage.setItem('do_you_mean',response.data.do_you_mean);
                
                setTimeout(() => { window.location.href = 'result.html'; }, 2000);
+            })
+            .catch(function(err){
+              _self.$message({
+                showClose: true,
+                message: 'Failed to retreive any document! Sorry, please try another query.',
+                type: 'error'
+              });
             })
         },
         querySearch(queryString, cb) {
@@ -70,7 +79,8 @@ new Vue({
         
       },
         mounted() {
-          this.vocab =vocab
+          this.vocab = vocab;
+          
     }
             // this.restaurants = this.loadAll();
           

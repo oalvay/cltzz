@@ -110,12 +110,14 @@ def detail(request):
         else:
             lyrics_url = api_info.json()['response']['song']['url']
             lyrics_info = requests.get(lyrics_url, headers=headers, timeout=5)
+
             if lyrics_info.status_code != 200:
                 1 / 0
             else:
                 html = BeautifulSoup(lyrics_info.text, "html.parser")
                 div = html.find("div", class_=re.compile("^lyrics$|Lyrics__Root"))
                 song['lyrics']= re.sub("\n+", "\n", div.get_text("\n"))
+                print(song['lyrics'])
     except:
         song['lyrics']= a.lyrics
 

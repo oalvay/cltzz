@@ -75,11 +75,11 @@ word-break: break-word;
 				<div class="header_searchbar" id="searchbar">
 					
 	 					<el-form :inline="true" label-width="10%" @keyup.enter.native="search" @submit.native.prevent style="margin-top: 1%;width: 90%">
-	 						<el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image>
+	 						<img src="./pics/logo.png" onclick="window.location.href = 'index.html'" id="logo" class="el-image__inner">
+	 						<!-- <el-image onclick="window.location.href = 'index.html'" id="logo" style="" src="./pics/logo.png"></el-image> -->
 	 						<el-form-item >
-								<!-- <el-input class="header_search"  placeholder="" v-model="info.studentNumber" :disabled="false" style="width: 400px;"> -->
-								<el-input id ="queryTextBox" style="width: 400px;" class="inline-input header_search" v-model="query" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect" @keyup.enter.native="search">	
-								</el-input>
+								<el-autocomplete id ="queryTextBox" style="width: 400px;" class="inline-input header_search" v-model="query" :fetch-suggestions="querySearch" placeholder="" :trigger-on-focus="false" @select="handleSelect" @keyup.enter.native="search">	
+								</el-autocomplete>
 								
 								<i slot="prefix" class="el-input__icon el-icon-search"></i>
 							</el-form-item>
@@ -88,6 +88,8 @@ word-break: break-word;
 									<el-button type="primary" @click="search">Advanced</el-button>
 							</el-form-item>
 						</el-form>
+						<div id ="suggest"></div>
+						
  				</div>
  			</el-header>
 
