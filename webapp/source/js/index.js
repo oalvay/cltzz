@@ -7,7 +7,7 @@ new Vue({
           vocab:[],
           state1: '',
           query: '',
-          do_you_mean:'',
+          suggest:'',
         }
       },
       methods: {
@@ -15,11 +15,48 @@ new Vue({
           this.role = selVal;
           sessionStorage.setItem('role', this.role);
         },
+         isEmpty(obj){
+              if(typeof obj == "undefined" || obj == null || obj == ""|| obj == " "){
+                  return true;
+              }else{
+                  return false;
+              }
+          },
+
+        
         search(){
           var _self = this;
           _self.$message('Searching...');
           axios
             .post(ip_address+'/engine/search?query='+JSON.stringify(this.query),{
+
+  })
+            .then(function (response) {
+              console.log(response);
+               localStorage.setItem('results',JSON.stringify(response.data.ret));
+               sessionStorage.setItem('cur_query',response.data.query);
+               sessionStorage.setItem('exe_time',response.data.exe_time);
+               sessionStorage.setItem('do_you_mean',response.data.do_you_mean);
+               
+               setTimeout(() => { window.location.href = 'result.html'; }, 2000);
+            })
+            .catch(function(err){
+              _self.$message({
+                showClose: true,
+                message: 'Failed to retreive any document! Sorry, please try another query.',
+                type: 'error'
+              });
+            })
+        },
+        suggest_query(){
+          // console.log('suggest',suggest)
+          this.query=this.suggest;
+        },
+        advanced(){
+          var _self = this;
+          _self.$message('Searching...');
+          axios
+            .post(ip_address+'/engine/advanced?query='+JSON.stringify(this.query),{
 
   })
             .then(function (response) {
@@ -80,6 +117,15 @@ new Vue({
       },
         mounted() {
           this.vocab = vocab;
+          let suggest = sessionStorage.getItem('do_you_mean');
+          console.log(suggest)
+          if(suggest && suggest!==""){
+            this.suggest=suggest.replace(/^\"|\"$/g,'');
+          }
+          let q = sessionStorage.getItem('cur_query');
+          if(q && q!==""){
+            this.query=q.replace(/^\"|\"$/g,'');
+          }
           
     }
             // this.restaurants = this.loadAll();

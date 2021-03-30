@@ -91,7 +91,7 @@ def search(request, bert = False):
              'query': query, 'ret': results, 'do_you_mean': corrent_query}
     return HttpResponse(jdumps(resp), content_type="application/json")
 
-def advanced(request)
+def advanced(request):
     return search(request, bert = True)
 
 def detail(request):
