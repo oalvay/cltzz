@@ -23,7 +23,7 @@ def result(request):
 # def detail(request):
 #     return render(request, 'engine/detail.html')
 
-def search(request, bert = False):
+def search(request):
     start_time = ttime()
     query = request.GET.get('query')
     corrent_query = spell(query)
@@ -74,7 +74,7 @@ def search(request, bert = False):
         if len(selected_docs) >= 50:
             break
 
-    ranked_docs = rerank(selected_docs, clean_query, bert = bert)
+    ranked_docs = rerank(selected_docs, clean_query, bert = False)
 
     results = []
     for song_id in ranked_docs:
@@ -92,7 +92,72 @@ def search(request, bert = False):
     return HttpResponse(jdumps(resp), content_type="application/json")
 
 def advanced(request):
-    return search(request, bert = True)
+    start_time = ttime()
+    query = request.GET.get('query')
+    corrent_query = spell(query)
+    if corrent_query == query:
+        corrent_query = ' '
+
+    matched_docs, clean_query = retrieve(query, docs_num=250)
+    selected_docs = []
+    titles = []
+    lyricses = []
+    pageviews = []
+    for song_id in matched_docs:
+        a = Song.objects.get(pk = song_id)
+        selected_docs.append(song_id)
+        titles.append(clean_title(a.title))
+        lyricses.append(tokenize(a.lyrics[0:400])[:10])
+        pageviews.append(a.stats_pageviews)
+
+        # if two songs have the same title, remove the one with less
+        # pageviews
+        if titles[-1] in titles[:-1]:
+            same_title_song = titles[:-1].index(titles[-1])
+            if pageviews[same_title_song] <= pageviews[-1]:
+                selected_docs.pop(same_title_song)
+                titles.pop(same_title_song)
+                lyricses.pop(same_title_song)
+                pageviews.pop(same_title_song)
+            else:
+                selected_docs.pop()
+                titles.pop()
+                lyricses.pop()
+                pageviews.pop()
+
+        # the same applied to lyrics
+        if lyricses[-1] in lyricses[:-1]:
+            same_lyrics_song = lyricses[:-1].index(lyricses[-1])
+            if pageviews[same_lyrics_song] <= pageviews[-1]:
+                selected_docs.pop(same_lyrics_song)
+                titles.pop(same_lyrics_song)
+                lyricses.pop(same_lyrics_song)
+                pageviews.pop(same_lyrics_song)
+            else:
+                selected_docs.pop()
+                titles.pop()
+                lyricses.pop()
+                pageviews.pop()
+
+        if len(selected_docs) >= 50:
+            break
+
+    ranked_docs = rerank(selected_docs, clean_query, bert = True)
+
+    results = []
+    for song_id in ranked_docs:
+        a = Song.objects.get(pk = song_id)
+        song = {}
+        song['title']= a.title
+        song['pageviews'] = a.stats_pageviews
+        song['artist'] = a.primary_artist_name
+        song['abstract']=a.lyrics[0:400]
+        song['id'] = str(song_id)
+        results.append(song)
+
+    resp = {'err': 'false', 'detail': 'Get success','exe_time':ttime() - start_time,\
+             'query': query, 'ret': results, 'do_you_mean': corrent_query}
+    return HttpResponse(jdumps(resp), content_type="application/json")
 
 def detail(request):
     id = request.GET.get('id')

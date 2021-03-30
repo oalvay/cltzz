@@ -17,3 +17,4 @@ webapp/cltzz/data/
 webapp/cltzz/engine/.idea/workspace.xml
 webapp/cltzz/engine/migrations/0*.py
 *.sqlite3
+**/settings.py
