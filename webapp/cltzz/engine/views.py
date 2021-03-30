@@ -23,7 +23,7 @@ def result(request):
 # def detail(request):
 #     return render(request, 'engine/detail.html')
 
-def search(request):
+def search(request, bert = False):
     start_time = ttime()
     query = request.GET.get('query')
     corrent_query = spell(query)
@@ -74,7 +74,7 @@ def search(request):
         if len(selected_docs) >= 50:
             break
 
-    ranked_docs = rerank(selected_docs, clean_query, bert = True)
+    ranked_docs = rerank(selected_docs, clean_query, bert = bert)
 
     results = []
     for song_id in ranked_docs:
@@ -90,6 +90,9 @@ def search(request):
     resp = {'err': 'false', 'detail': 'Get success','exe_time':ttime() - start_time,\
              'query': query, 'ret': results, 'do_you_mean': corrent_query}
     return HttpResponse(jdumps(resp), content_type="application/json")
+
+def advanced(request)
+    return search(request, bert = True)
 
 def detail(request):
     id = request.GET.get('id')
