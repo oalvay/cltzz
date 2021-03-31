@@ -16,30 +16,13 @@ The repository is currenctly splited into four parts (can be extented if needed)
 name|function
 ---|---
 `crawler`| collect data from internet
-`engine`| preprocess data and bulid search engine that receive quries and return a ranking of songs
+`engine`| preprocess data and bulid search engine that receive quries and return a ranking of songs (discarded)
 `webapp`| build a web application using the data and search engine
-`report`| write report
+`report`| write report (not used)
 
 ### Data
 
 Since github does not support large size file (>100MB), please download the dataset from [this private kaggle link](http://www.kaggle.com/dataset/991400034c35e93ff75a6255470ea5a7ce796409259539c9b996da553b8dccba) and move the `.csv` files under the `engine` directory.
-
-### Current Planning 
-
-#### stage 1 (completed)
-
-+ build a demo web crawler (requests 1000 time)
-+ write templates for front-page and search results.
-
-#### stage 2 (completed)
-
-+ build the full crawler
-+ scraping the first one-million songs
-
-#### stage 3 (on going)
-
-+ build search engine
-+ scraping all songs (6 millions)
  
 ---
 
